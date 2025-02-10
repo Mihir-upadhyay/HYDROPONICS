@@ -1,0 +1,16 @@
+import time
+import DFRobot_ADS1115
+
+# Initialize ADS1115 (I2C Address: 0x48)
+ads = DFRobot_ADS1115.ADS1115(i2c_addr=0x48, bus=1)
+ads.set_gain(1)  # Set gain (adjust as needed)
+
+def read_sensors():
+    ph_voltage = ads.read_voltage(0)['r']
+    ec_voltage = ads.read_voltage(1)['r']
+    return {"pH_Voltage": ph_voltage, "EC_Voltage": ec_voltage}
+
+while True:
+    values = read_sensors()
+    print(f"pH Voltage: {values['pH_Voltage']}V, EC Voltage: {values['EC_Voltage']}V")
+    time.sleep(2)
